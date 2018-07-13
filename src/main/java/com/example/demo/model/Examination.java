@@ -1,5 +1,6 @@
 package com.example.demo.model;
 
+
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
@@ -10,30 +11,17 @@ import javax.validation.constraints.NotBlank;
 import java.io.Serializable;
 import java.util.Date;
 
-
 @Entity
-@Table(name = "users")
+@Table(name = "examinations")
 @EntityListeners(AuditingEntityListener.class)
 @JsonIgnoreProperties(value = {"createdAt", "updatedAt"}, allowGetters = true)
-public class User implements Serializable {
-
+public class Examination implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @NotBlank
     private String name;
-
-    @NotBlank
-    private String password;
-
-    @ManyToOne
-    @JoinColumn(name = "position_id")
-    private Position position;
-
-    @OneToOne
-    @JoinColumn(name = "health_level_id")
-    private HealthLevel healthLevel;
 
     @Column(nullable = false, updatable = false)
     @Temporal(TemporalType.TIMESTAMP)
@@ -61,14 +49,6 @@ public class User implements Serializable {
         this.name = name;
     }
 
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
     public Date getCreatedAt() {
         return createdAt;
     }
@@ -83,21 +63,5 @@ public class User implements Serializable {
 
     public void setUpdatedAt(Date updatedAt) {
         this.updatedAt = updatedAt;
-    }
-
-    public Position getPosition() {
-        return position;
-    }
-
-    public void setPosition(Position position) {
-        this.position = position;
-    }
-
-    public HealthLevel getHealthLevel() {
-        return healthLevel;
-    }
-
-    public void setHealthLevel(HealthLevel healthLevel) {
-        this.healthLevel = healthLevel;
     }
 }

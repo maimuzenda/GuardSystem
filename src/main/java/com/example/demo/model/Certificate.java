@@ -8,13 +8,15 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import java.io.Serializable;
+import java.util.Collection;
 import java.util.Date;
 
+
 @Entity
-@Table(name = "departments")
+@Table(name = "certificates")
 @EntityListeners(AuditingEntityListener.class)
 @JsonIgnoreProperties(value = {"createdAt", "updatedAt"}, allowGetters = true)
-public class Department implements Serializable {
+public class Certificate implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -23,8 +25,19 @@ public class Department implements Serializable {
     private String name;
 
     @ManyToOne
-    @JoinColumn(name = "super_id")
-    private Department department;
+    @JoinColumn(name = "user_id")
+    private User user;
+
+    @Column(name = "start_date")
+    private Date startDate;
+
+    @Column(name = "end_date")
+    private Date endDate;
+
+    private String status;
+
+    @OneToMany
+    private Collection<Examination> examinations;
 
     @Column(nullable = false, updatable = false)
     @Temporal(TemporalType.TIMESTAMP)
@@ -52,6 +65,46 @@ public class Department implements Serializable {
         this.name = name;
     }
 
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public Date getStartDate() {
+        return startDate;
+    }
+
+    public void setStartDate(Date startDate) {
+        this.startDate = startDate;
+    }
+
+    public Date getEndDate() {
+        return endDate;
+    }
+
+    public void setEndDate(Date endDate) {
+        this.endDate = endDate;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public Collection<Examination> getExaminations() {
+        return examinations;
+    }
+
+    public void setExaminations(Collection<Examination> examinations) {
+        this.examinations = examinations;
+    }
+
     public Date getCreatedAt() {
         return createdAt;
     }
@@ -66,13 +119,5 @@ public class Department implements Serializable {
 
     public void setUpdatedAt(Date updatedAt) {
         this.updatedAt = updatedAt;
-    }
-
-    public Department getDepartment() {
-        return department;
-    }
-
-    public void setDepartment(Department department) {
-        this.department = department;
     }
 }

@@ -1,39 +1,31 @@
 package com.example.demo.model;
 
+
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotBlank;
-import java.io.Serializable;
 import java.util.Date;
 
-
 @Entity
-@Table(name = "users")
+@Table(name = "health_levels")
 @EntityListeners(AuditingEntityListener.class)
 @JsonIgnoreProperties(value = {"createdAt", "updatedAt"}, allowGetters = true)
-public class User implements Serializable {
-
+public class HealthLevel {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotBlank
     private String name;
 
-    @NotBlank
-    private String password;
+    @Column(name = "safety_info")
+    private String safetyInfo;
 
-    @ManyToOne
-    @JoinColumn(name = "position_id")
-    private Position position;
+    @Column(name = "implement_info")
+    private String implementInfo;
 
-    @OneToOne
-    @JoinColumn(name = "health_level_id")
-    private HealthLevel healthLevel;
 
     @Column(nullable = false, updatable = false)
     @Temporal(TemporalType.TIMESTAMP)
@@ -61,12 +53,20 @@ public class User implements Serializable {
         this.name = name;
     }
 
-    public String getPassword() {
-        return password;
+    public String getSafetyInfo() {
+        return safetyInfo;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
+    public void setSafetyInfo(String safetyInfo) {
+        this.safetyInfo = safetyInfo;
+    }
+
+    public String getImplementInfo() {
+        return implementInfo;
+    }
+
+    public void setImplementInfo(String implementInfo) {
+        this.implementInfo = implementInfo;
     }
 
     public Date getCreatedAt() {
@@ -83,21 +83,5 @@ public class User implements Serializable {
 
     public void setUpdatedAt(Date updatedAt) {
         this.updatedAt = updatedAt;
-    }
-
-    public Position getPosition() {
-        return position;
-    }
-
-    public void setPosition(Position position) {
-        this.position = position;
-    }
-
-    public HealthLevel getHealthLevel() {
-        return healthLevel;
-    }
-
-    public void setHealthLevel(HealthLevel healthLevel) {
-        this.healthLevel = healthLevel;
     }
 }
