@@ -27,6 +27,8 @@ public class User implements Serializable {
     @NotBlank
     private String password;
 
+    private Date birthDate;
+
     @ManyToOne
     @JoinColumn(name = "position_id")
     private Position position;
@@ -34,6 +36,10 @@ public class User implements Serializable {
     @OneToOne
     @JoinColumn(name = "health_level_id")
     private HealthLevel healthLevel;
+
+    @OneToOne
+    @JoinColumn(name = "archive_id")
+    private Archive archive;
 
     @Column(nullable = false, updatable = false)
     @Temporal(TemporalType.TIMESTAMP)
@@ -99,5 +105,21 @@ public class User implements Serializable {
 
     public void setHealthLevel(HealthLevel healthLevel) {
         this.healthLevel = healthLevel;
+    }
+
+    public Archive getArchive() {
+        return archive;
+    }
+
+    public void setArchive(Archive archive) {
+        this.archive = archive;
+    }
+
+    public Date getBirthDate() {
+        return birthDate;
+    }
+
+    public void setBirthDate(Date birthDate) {
+        this.birthDate = birthDate;
     }
 }

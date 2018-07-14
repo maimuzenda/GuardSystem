@@ -1,44 +1,38 @@
 package com.example.demo.model;
 
-import com.example.demo.repository.ExaminationToCertificateRepository;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotBlank;
 import java.io.Serializable;
-import java.util.*;
-
+import java.util.Date;
 
 @Entity
-@Table(name = "certificates")
+@Table(name = "drugs")
 @EntityListeners(AuditingEntityListener.class)
 @JsonIgnoreProperties(value = {"createdAt", "updatedAt"}, allowGetters = true)
-public class Certificate implements Serializable {
-    @Transient
-    private ArrayList<Examination> examinations = new ArrayList<>(); 
-    
+public class Drug implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotBlank
     private String name;
 
-    @ManyToOne
-    @JoinColumn(name = "user_id")
-    private User user;
+    private String code;
+
+    private String comments;
+
+    private double quantity;
+
+    private String unit;
 
     @Column(name = "start_date")
     private Date startDate;
 
     @Column(name = "end_date")
     private Date endDate;
-
-    private String status;
-
 
     @Column(nullable = false, updatable = false)
     @Temporal(TemporalType.TIMESTAMP)
@@ -66,12 +60,20 @@ public class Certificate implements Serializable {
         this.name = name;
     }
 
-    public User getUser() {
-        return user;
+    public String getCode() {
+        return code;
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    public void setCode(String code) {
+        this.code = code;
+    }
+
+    public String getComments() {
+        return comments;
+    }
+
+    public void setComments(String comments) {
+        this.comments = comments;
     }
 
     public Date getStartDate() {
@@ -90,14 +92,21 @@ public class Certificate implements Serializable {
         this.endDate = endDate;
     }
 
-    public String getStatus() {
-        return status;
+    public double getQuantity() {
+        return quantity;
     }
 
-    public void setStatus(String status) {
-        this.status = status;
+    public void setQuantity(double quantity) {
+        this.quantity = quantity;
     }
 
+    public String getUnit() {
+        return unit;
+    }
+
+    public void setUnit(String unit) {
+        this.unit = unit;
+    }
 
     public Date getCreatedAt() {
         return createdAt;
@@ -113,13 +122,5 @@ public class Certificate implements Serializable {
 
     public void setUpdatedAt(Date updatedAt) {
         this.updatedAt = updatedAt;
-    }
-
-    public ArrayList<Examination> getExaminations() {
-        return examinations;
-    }
-
-    public void setExaminations(ArrayList<Examination> examinations) {
-        this.examinations = examinations;
     }
 }

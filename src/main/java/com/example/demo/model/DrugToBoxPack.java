@@ -1,38 +1,40 @@
 package com.example.demo.model;
 
-
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotBlank;
 import java.io.Serializable;
 import java.util.Date;
 
+
 @Entity
-@Table(name = "examination_records")
+@Table(name = "drug_to_box_pack")
 @EntityListeners(AuditingEntityListener.class)
 @JsonIgnoreProperties(value = {"createdAt", "updatedAt"}, allowGetters = true)
-public class ExaminationRecord implements Serializable {
+public class DrugToBoxPack implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "user_id")
-    private User user;
+    @JoinColumn(name = "drug_id")
+    private Drug drug;
 
-    @ManyToOne
-    @JoinColumn(name = "examination_id")
-    private Examination examination;
+    private double quantity;
 
-    @NotBlank
-    private boolean status;
+    private String unit;
+
+    @Column(name = "is_active")
+    private boolean isActive;
 
     private String comments;
 
+    @ManyToOne
+    @JoinColumn(name = "box_pack_id")
+    private BoxPack boxPack;
 
     @Column(nullable = false, updatable = false)
     @Temporal(TemporalType.TIMESTAMP)
@@ -52,28 +54,36 @@ public class ExaminationRecord implements Serializable {
         this.id = id;
     }
 
-    public User getUser() {
-        return user;
+    public Drug getDrug() {
+        return drug;
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    public void setDrug(Drug drug) {
+        this.drug = drug;
     }
 
-    public Examination getExamination() {
-        return examination;
+    public double getQuantity() {
+        return quantity;
     }
 
-    public void setExamination(Examination examination) {
-        this.examination = examination;
+    public void setQuantity(double quantity) {
+        this.quantity = quantity;
     }
 
-    public boolean getStatus() {
-        return status;
+    public String getUnit() {
+        return unit;
     }
 
-    public void setStatus(boolean status) {
-        this.status = status;
+    public void setUnit(String unit) {
+        this.unit = unit;
+    }
+
+    public boolean isActive() {
+        return isActive;
+    }
+
+    public void setActive(boolean active) {
+        isActive = active;
     }
 
     public String getComments() {
@@ -82,6 +92,14 @@ public class ExaminationRecord implements Serializable {
 
     public void setComments(String comments) {
         this.comments = comments;
+    }
+
+    public BoxPack getBoxPack() {
+        return boxPack;
+    }
+
+    public void setBoxPack(BoxPack boxPack) {
+        this.boxPack = boxPack;
     }
 
     public Date getCreatedAt() {

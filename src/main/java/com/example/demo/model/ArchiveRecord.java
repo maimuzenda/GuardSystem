@@ -1,35 +1,28 @@
 package com.example.demo.model;
 
-import com.example.demo.repository.ExaminationToCertificateRepository;
+
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotBlank;
 import java.io.Serializable;
-import java.util.*;
-
+import java.util.Date;
 
 @Entity
-@Table(name = "certificates")
+@Table(name = "archive_records")
 @EntityListeners(AuditingEntityListener.class)
 @JsonIgnoreProperties(value = {"createdAt", "updatedAt"}, allowGetters = true)
-public class Certificate implements Serializable {
-    @Transient
-    private ArrayList<Examination> examinations = new ArrayList<>(); 
-    
+public class ArchiveRecord implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotBlank
-    private String name;
-
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
+
 
     @Column(name = "start_date")
     private Date startDate;
@@ -37,8 +30,7 @@ public class Certificate implements Serializable {
     @Column(name = "end_date")
     private Date endDate;
 
-    private String status;
-
+    private String comments;
 
     @Column(nullable = false, updatable = false)
     @Temporal(TemporalType.TIMESTAMP)
@@ -56,14 +48,6 @@ public class Certificate implements Serializable {
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
     }
 
     public User getUser() {
@@ -90,14 +74,13 @@ public class Certificate implements Serializable {
         this.endDate = endDate;
     }
 
-    public String getStatus() {
-        return status;
+    public String getComments() {
+        return comments;
     }
 
-    public void setStatus(String status) {
-        this.status = status;
+    public void setComments(String comments) {
+        this.comments = comments;
     }
-
 
     public Date getCreatedAt() {
         return createdAt;
@@ -113,13 +96,5 @@ public class Certificate implements Serializable {
 
     public void setUpdatedAt(Date updatedAt) {
         this.updatedAt = updatedAt;
-    }
-
-    public ArrayList<Examination> getExaminations() {
-        return examinations;
-    }
-
-    public void setExaminations(ArrayList<Examination> examinations) {
-        this.examinations = examinations;
     }
 }

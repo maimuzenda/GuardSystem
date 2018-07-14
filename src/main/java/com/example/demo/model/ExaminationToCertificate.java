@@ -1,38 +1,33 @@
 package com.example.demo.model;
 
-
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotBlank;
 import java.io.Serializable;
+import java.util.Collection;
 import java.util.Date;
 
 @Entity
-@Table(name = "examination_records")
+@Table(name = "examination_to_certificate")
 @EntityListeners(AuditingEntityListener.class)
-@JsonIgnoreProperties(value = {"createdAt", "updatedAt"}, allowGetters = true)
-public class ExaminationRecord implements Serializable {
+public class ExaminationToCertificate implements Serializable {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "user_id")
-    private User user;
-
-    @ManyToOne
     @JoinColumn(name = "examination_id")
     private Examination examination;
 
-    @NotBlank
-    private boolean status;
+
+    @ManyToOne
+    @JoinColumn(name = "certificate_id")
+    private Certificate certificate;
 
     private String comments;
-
 
     @Column(nullable = false, updatable = false)
     @Temporal(TemporalType.TIMESTAMP)
@@ -52,14 +47,6 @@ public class ExaminationRecord implements Serializable {
         this.id = id;
     }
 
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
-    }
-
     public Examination getExamination() {
         return examination;
     }
@@ -68,12 +55,12 @@ public class ExaminationRecord implements Serializable {
         this.examination = examination;
     }
 
-    public boolean getStatus() {
-        return status;
+    public Certificate getCertificate() {
+        return certificate;
     }
 
-    public void setStatus(boolean status) {
-        this.status = status;
+    public void setCertificate(Certificate certificate) {
+        this.certificate = certificate;
     }
 
     public String getComments() {

@@ -1,10 +1,9 @@
 package com.example.demo.repository;
 
-import com.example.demo.model.Certificate;
+import com.example.demo.model.ArchiveRecord;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface CertificateRepository extends JpaRepository<Certificate, Long> {
-
+public interface ArchiveRecordRepository extends JpaRepository<ArchiveRecord, Long> {
 }

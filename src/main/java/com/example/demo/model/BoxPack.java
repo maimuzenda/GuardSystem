@@ -1,38 +1,39 @@
 package com.example.demo.model;
 
-
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotBlank;
 import java.io.Serializable;
 import java.util.Date;
 
+
 @Entity
-@Table(name = "examination_records")
+@Table(name = "box_packs")
 @EntityListeners(AuditingEntityListener.class)
 @JsonIgnoreProperties(value = {"createdAt", "updatedAt"}, allowGetters = true)
-public class ExaminationRecord implements Serializable {
+public class BoxPack implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne
-    @JoinColumn(name = "user_id")
-    private User user;
+    private String detail;
 
     @ManyToOne
-    @JoinColumn(name = "examination_id")
-    private Examination examination;
+    @JoinColumn(name = "flight_examination_id")
+    private FlightExamination flightExamination;
 
-    @NotBlank
-    private boolean status;
+    @ManyToOne
+    @JoinColumn(name = "delivery_user")
+    private User deliveryUser;
+
+    @ManyToOne
+    @JoinColumn(name = "receive_user")
+    private User receiveUser;
 
     private String comments;
-
 
     @Column(nullable = false, updatable = false)
     @Temporal(TemporalType.TIMESTAMP)
@@ -52,36 +53,36 @@ public class ExaminationRecord implements Serializable {
         this.id = id;
     }
 
-    public User getUser() {
-        return user;
+    public String getDetail() {
+        return detail;
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    public void setDetail(String detail) {
+        this.detail = detail;
     }
 
-    public Examination getExamination() {
-        return examination;
+    public FlightExamination getFlightExamination() {
+        return flightExamination;
     }
 
-    public void setExamination(Examination examination) {
-        this.examination = examination;
+    public void setFlightExamination(FlightExamination flightExamination) {
+        this.flightExamination = flightExamination;
     }
 
-    public boolean getStatus() {
-        return status;
+    public User getDeliveryUser() {
+        return deliveryUser;
     }
 
-    public void setStatus(boolean status) {
-        this.status = status;
+    public void setDeliveryUser(User deliveryUser) {
+        this.deliveryUser = deliveryUser;
     }
 
-    public String getComments() {
-        return comments;
+    public User getReceiveUser() {
+        return receiveUser;
     }
 
-    public void setComments(String comments) {
-        this.comments = comments;
+    public void setReceiveUser(User receiveUser) {
+        this.receiveUser = receiveUser;
     }
 
     public Date getCreatedAt() {

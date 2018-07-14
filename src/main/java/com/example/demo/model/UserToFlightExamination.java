@@ -1,21 +1,18 @@
 package com.example.demo.model;
 
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotBlank;
 import java.io.Serializable;
 import java.util.Date;
 
 @Entity
-@Table(name = "examination_records")
+@Table(name = "user_to_flight_examinations")
 @EntityListeners(AuditingEntityListener.class)
-@JsonIgnoreProperties(value = {"createdAt", "updatedAt"}, allowGetters = true)
-public class ExaminationRecord implements Serializable {
+public class UserToFlightExamination implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -25,14 +22,12 @@ public class ExaminationRecord implements Serializable {
     private User user;
 
     @ManyToOne
-    @JoinColumn(name = "examination_id")
-    private Examination examination;
+    @JoinColumn(name = "flight_examination_id")
+    private FlightExamination flightExamination;
 
-    @NotBlank
     private boolean status;
 
     private String comments;
-
 
     @Column(nullable = false, updatable = false)
     @Temporal(TemporalType.TIMESTAMP)
@@ -60,12 +55,12 @@ public class ExaminationRecord implements Serializable {
         this.user = user;
     }
 
-    public Examination getExamination() {
-        return examination;
+    public FlightExamination getFlightExamination() {
+        return flightExamination;
     }
 
-    public void setExamination(Examination examination) {
-        this.examination = examination;
+    public void setFlightExamination(FlightExamination flightExamination) {
+        this.flightExamination = flightExamination;
     }
 
     public boolean getStatus() {

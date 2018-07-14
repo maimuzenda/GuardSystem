@@ -1,38 +1,33 @@
 package com.example.demo.model;
 
-
+import com.example.demo.repository.UserToFlightExaminationRepository;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotBlank;
 import java.io.Serializable;
-import java.util.Date;
+import java.util.*;
 
 @Entity
-@Table(name = "examination_records")
+@Table(name = "flight_examinations")
 @EntityListeners(AuditingEntityListener.class)
 @JsonIgnoreProperties(value = {"createdAt", "updatedAt"}, allowGetters = true)
-public class ExaminationRecord implements Serializable {
+public class FlightExamination implements Serializable {
+
+    @Transient
+    private ArrayList<UserToFlightExamination> userToFlightExaminations = new ArrayList<>();
+    
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne
-    @JoinColumn(name = "user_id")
-    private User user;
-
-    @ManyToOne
-    @JoinColumn(name = "examination_id")
-    private Examination examination;
-
-    @NotBlank
-    private boolean status;
+    @Column(name = "flight_number")
+    private String flightNumber;
 
     private String comments;
-
 
     @Column(nullable = false, updatable = false)
     @Temporal(TemporalType.TIMESTAMP)
@@ -52,29 +47,14 @@ public class ExaminationRecord implements Serializable {
         this.id = id;
     }
 
-    public User getUser() {
-        return user;
+    public String getFlightNumber() {
+        return flightNumber;
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    public void setFlightNumber(String flightNumber) {
+        this.flightNumber = flightNumber;
     }
 
-    public Examination getExamination() {
-        return examination;
-    }
-
-    public void setExamination(Examination examination) {
-        this.examination = examination;
-    }
-
-    public boolean getStatus() {
-        return status;
-    }
-
-    public void setStatus(boolean status) {
-        this.status = status;
-    }
 
     public String getComments() {
         return comments;
@@ -98,5 +78,14 @@ public class ExaminationRecord implements Serializable {
 
     public void setUpdatedAt(Date updatedAt) {
         this.updatedAt = updatedAt;
+    }
+
+
+    public ArrayList<UserToFlightExamination> getUserToFlightExaminations() {
+        return userToFlightExaminations;
+    }
+
+    public void setUserToFlightExaminations(ArrayList<UserToFlightExamination> userToFlightExaminations) {
+        this.userToFlightExaminations = userToFlightExaminations;
     }
 }

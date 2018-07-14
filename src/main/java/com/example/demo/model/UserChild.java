@@ -1,44 +1,34 @@
 package com.example.demo.model;
 
-import com.example.demo.repository.ExaminationToCertificateRepository;
+
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotBlank;
 import java.io.Serializable;
-import java.util.*;
-
+import java.util.Date;
 
 @Entity
-@Table(name = "certificates")
+@Table(name = "user_children")
 @EntityListeners(AuditingEntityListener.class)
 @JsonIgnoreProperties(value = {"createdAt", "updatedAt"}, allowGetters = true)
-public class Certificate implements Serializable {
-    @Transient
-    private ArrayList<Examination> examinations = new ArrayList<>(); 
-    
+public class UserChild implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotBlank
     private String name;
 
+    private Date birthDate;
+
     @ManyToOne
-    @JoinColumn(name = "user_id")
-    private User user;
+    @JoinColumn(name = "parent_id")
+    private User parent;
 
-    @Column(name = "start_date")
-    private Date startDate;
-
-    @Column(name = "end_date")
-    private Date endDate;
-
-    private String status;
-
+    @Column(name = "has_single_child_fee")
+    private boolean hasSingleChildFee;
 
     @Column(nullable = false, updatable = false)
     @Temporal(TemporalType.TIMESTAMP)
@@ -66,38 +56,29 @@ public class Certificate implements Serializable {
         this.name = name;
     }
 
-    public User getUser() {
-        return user;
+    public Date getBirthDate() {
+        return birthDate;
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    public void setBirthDate(Date birthDate) {
+        this.birthDate = birthDate;
     }
 
-    public Date getStartDate() {
-        return startDate;
+    public User getParent() {
+        return parent;
     }
 
-    public void setStartDate(Date startDate) {
-        this.startDate = startDate;
+    public void setParent(User parent) {
+        this.parent = parent;
     }
 
-    public Date getEndDate() {
-        return endDate;
+    public boolean isHasSingleChildFee() {
+        return hasSingleChildFee;
     }
 
-    public void setEndDate(Date endDate) {
-        this.endDate = endDate;
+    public void setHasSingleChildFee(boolean hasSingleChildFee) {
+        this.hasSingleChildFee = hasSingleChildFee;
     }
-
-    public String getStatus() {
-        return status;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
-    }
-
 
     public Date getCreatedAt() {
         return createdAt;
@@ -113,13 +94,5 @@ public class Certificate implements Serializable {
 
     public void setUpdatedAt(Date updatedAt) {
         this.updatedAt = updatedAt;
-    }
-
-    public ArrayList<Examination> getExaminations() {
-        return examinations;
-    }
-
-    public void setExaminations(ArrayList<Examination> examinations) {
-        this.examinations = examinations;
     }
 }

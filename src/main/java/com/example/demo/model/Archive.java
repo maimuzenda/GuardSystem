@@ -7,32 +7,20 @@ import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotBlank;
 import java.io.Serializable;
 import java.util.Date;
 
 @Entity
-@Table(name = "examination_records")
+@Table(name = "archives")
 @EntityListeners(AuditingEntityListener.class)
 @JsonIgnoreProperties(value = {"createdAt", "updatedAt"}, allowGetters = true)
-public class ExaminationRecord implements Serializable {
+public class Archive implements Serializable {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne
-    @JoinColumn(name = "user_id")
-    private User user;
-
-    @ManyToOne
-    @JoinColumn(name = "examination_id")
-    private Examination examination;
-
-    @NotBlank
-    private boolean status;
-
-    private String comments;
-
+    private String detail;
 
     @Column(nullable = false, updatable = false)
     @Temporal(TemporalType.TIMESTAMP)
@@ -52,36 +40,12 @@ public class ExaminationRecord implements Serializable {
         this.id = id;
     }
 
-    public User getUser() {
-        return user;
+    public String getDetail() {
+        return detail;
     }
 
-    public void setUser(User user) {
-        this.user = user;
-    }
-
-    public Examination getExamination() {
-        return examination;
-    }
-
-    public void setExamination(Examination examination) {
-        this.examination = examination;
-    }
-
-    public boolean getStatus() {
-        return status;
-    }
-
-    public void setStatus(boolean status) {
-        this.status = status;
-    }
-
-    public String getComments() {
-        return comments;
-    }
-
-    public void setComments(String comments) {
-        this.comments = comments;
+    public void setDetail(String detail) {
+        this.detail = detail;
     }
 
     public Date getCreatedAt() {
